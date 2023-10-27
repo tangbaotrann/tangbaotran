@@ -1,11 +1,13 @@
-import { Divider } from "antd";
 import dayjs from "dayjs";
 
-function Currency({ currencySourceAffterSwap, currencyExchangeAffterSwap }) {
+function CurrencyTooltip({
+  currencySourceAffterSwap,
+  currencyExchangeAffterSwap,
+}) {
   return (
     <div>
       <i>
-        * Loại tiền:{" "}
+        {/* Loại tiền nguồn */}* Loại tiền:{" "}
         {currencySourceAffterSwap ? currencySourceAffterSwap?.currency : null}
         {" - "}
         Giá:{" "}
@@ -16,7 +18,8 @@ function Currency({ currencySourceAffterSwap, currencyExchangeAffterSwap }) {
         {currencySourceAffterSwap
           ? dayjs(currencySourceAffterSwap?.date).format("DD/MM/YYYY")
           : null}
-        <br />* Loại tiền:{" "}
+        <br />
+        {/* Loại tiền muốn hoán đổi */}* Loại tiền:{" "}
         {currencyExchangeAffterSwap
           ? currencyExchangeAffterSwap?.currency
           : null}
@@ -34,4 +37,4 @@ function Currency({ currencySourceAffterSwap, currencyExchangeAffterSwap }) {
   );
 }
 
-export default Currency;
+export default CurrencyTooltip;

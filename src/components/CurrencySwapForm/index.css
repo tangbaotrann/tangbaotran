@@ -1,3 +1,11 @@
+.form-swap {
+    border-left: 6px solid red;
+    background-color: lightgrey;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 12px 10px lightgrey;
+}
+
 .inp-price {
     width: 100%;
 }
@@ -14,7 +22,7 @@
 
 .result-amount {
     font-size: 22px;
-    color: rgb(34, 242, 34);
+    color: rgb(20, 205, 20);
     margin-left: 10px;
 }
 

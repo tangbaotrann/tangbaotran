@@ -1,21 +1,11 @@
-import {
-  Form,
-  Button,
-  Select,
-  Row,
-  Col,
-  InputNumber,
-  message,
-  Tooltip,
-} from "antd";
+import { Form, Select, Row, Col, InputNumber, message } from "antd";
 import { useEffect, useState } from "react";
 
 import "./index.css";
-import Currencies from "./Currencies";
 import swapCurrency from "../../utils/swapCurrency";
-import Currency from "./Currency";
+import Buttons from "./Buttons";
+import CurrencyResult from "./CurrencyResult";
 
-const { Option } = Select;
 const { useForm } = Form;
 
 function CurrencySwapForm() {
@@ -33,16 +23,12 @@ function CurrencySwapForm() {
   );
   const [currencySourceAffterSwap, setCurrencySourceAffterSwap] = useState({});
 
-  //   console.log("currencies ->", currencies);
-  //   console.log("resultCurrency ->", resultCurrency);
-  //   console.log("currencyAffterSwap ->", currencyAffterSwap);
-
   // fetch api get currencies
   useEffect(() => {
     const fetchApiGetCurrencies = async () => {
       try {
         const response = await fetch(
-          "https://interview.switcheo.com/prices.json"
+          `${process.env.REACT_APP_BASE_URL}prices.json`
         )
           .then((res) => res.json())
           .then((data) => {
@@ -90,7 +76,9 @@ function CurrencySwapForm() {
       );
       setCurrencySourceAffterSwap(findLoaiTienNguon);
       setCurrencyExchangeAffterSwap(findLoaiTienMuonHoanDoi);
-      message.success("Chuyển đổi thành công.");
+      message.success(
+        `Chuyển đổi thành công từ loại tiền "${findLoaiTienNguon.currency}" sang loại tiền "${findLoaiTienMuonHoanDoi.currency}".`
+      );
     }
   };
 
@@ -105,7 +93,12 @@ function CurrencySwapForm() {
   return (
     <div>
       <h2>Xin Chào, Chuyển Đổi Tiền Tuệ Ngay Tại Đây</h2>
-      <Form {...customFormInput} form={formSwap} onFinish={handleOnFinishForm}>
+      <Form
+        {...customFormInput}
+        form={formSwap}
+        onFinish={handleOnFinishForm}
+        className="form-swap"
+      >
         {/* Nguồn tiền gốc */}
         <Row>
           <Col xs={12} sm={24} md={24} lg={24}>
@@ -119,7 +112,6 @@ function CurrencySwapForm() {
                 },
               ]}
             >
-              {/* <Currencies fieldNames="loaiTienNguon" currencies={currencies} /> */}
               <Select
                 fieldNames="loaiTienNguon"
                 options={currencies.map((currency) => ({
@@ -145,10 +137,6 @@ function CurrencySwapForm() {
                 },
               ]}
             >
-              {/* <Currencies
-            fieldNames="loaiTienMuonHoanDoi"
-            currencies={currencies}
-          /> */}
               <Select
                 fieldNames="loaiTienMuonHoanDoi"
                 options={currencies.map((currency) => ({
@@ -156,7 +144,7 @@ function CurrencySwapForm() {
                   value: currency.id,
                 }))}
                 placeholder="Chọn loại tiền..."
-              />
+              ></Select>
             </Form.Item>
           </Col>
         </Row>
@@ -183,40 +171,18 @@ function CurrencySwapForm() {
           </Col>
         </Row>
 
-        {/* Button */}
         <Row>
           <Col xs={12} sm={24} md={24} lg={24}>
             <div className="func-swap">
-              <strong>
-                <i>Số tiền sau khi đổi:</i>
+              {/* Currency result */}
+              <CurrencyResult
+                currencySourceAffterSwap={currencySourceAffterSwap}
+                currencyExchangeAffterSwap={currencyExchangeAffterSwap}
+                resultCurrency={resultCurrency}
+              />
 
-                {Object.keys(currencySourceAffterSwap).length > 0 ||
-                Object.keys(currencyExchangeAffterSwap).length > 0 ? (
-                  <Tooltip
-                    title={
-                      <Currency
-                        currencySourceAffterSwap={currencySourceAffterSwap}
-                        currencyExchangeAffterSwap={currencyExchangeAffterSwap}
-                      />
-                    }
-                  >
-                    <span className="result-amount">
-                      {resultCurrency} {currencyExchangeAffterSwap?.currency}
-                    </span>
-                  </Tooltip>
-                ) : (
-                  " ..."
-                )}
-              </strong>
-
-              <div>
-                <Button className="btn-reset" onClick={handleResetForm}>
-                  Làm mới
-                </Button>
-                <Button type="primary" htmlType="submit">
-                  Chuyển đổi
-                </Button>
-              </div>
+              {/* Buttons footer */}
+              <Buttons handleResetForm={handleResetForm} />
             </div>
           </Col>
         </Row>
