@@ -1,0 +1,23 @@
+.inp-price {
+    width: 100%;
+}
+
+.ant-input-number-input-wrap > input.ant-input-number-input {
+    text-align: center;
+}
+
+.func-swap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.result-amount {
+    font-size: 22px;
+    color: rgb(34, 242, 34);
+    margin-left: 10px;
+}
+
+.btn-reset {
+    margin-right: 12px;
+}
